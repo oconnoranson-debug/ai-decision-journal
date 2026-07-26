@@ -1,8 +1,14 @@
+import { useState } from "react";
 import "./App.css";
+
 import DecisionCard from "./components/DecisionCard";
-import { sampleDecision } from "./models/Decision";
+import DecisionList from "./components/DecisionList";
+
+import decisions from "./models/decisions";
 
 function App() {
+  const [selectedDecision, setSelectedDecision] = useState(decisions[0]);
+
   return (
     <div className="app">
       <header className="header">
@@ -17,7 +23,15 @@ function App() {
       </nav>
 
       <main className="content">
-        <DecisionCard decision={sampleDecision} />
+        <div className="workspace">
+          <DecisionList
+            decisions={decisions}
+            selectedDecision={selectedDecision}
+            onSelectDecision={setSelectedDecision}
+          />
+
+          <DecisionCard decision={selectedDecision} />
+        </div>
       </main>
     </div>
   );

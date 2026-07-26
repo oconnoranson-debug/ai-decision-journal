@@ -63,9 +63,73 @@ body {
 }
 
 .content {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 2rem auto;
   padding: 0 2rem;
+}
+
+/* ======================================================
+   Workspace
+====================================================== */
+
+.workspace {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ======================================================
+   Decision List
+====================================================== */
+
+.decision-list {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.decision-list h2 {
+  margin: 0;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1.2rem;
+}
+
+.decision-list-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.decision-list-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s ease;
+}
+
+.decision-list-item:last-child {
+  border-bottom: none;
+}
+
+.decision-list-item.selected {
+  background: #eff6ff;
+  border-left: 4px solid #2563eb;
+}
+
+.decision-list-item h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.decision-list-item p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 /* ======================================================
@@ -86,7 +150,7 @@ body {
 }
 
 .decision-card-header h2 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
   color: #111827;
   font-size: 1.8rem;
 }
@@ -113,7 +177,7 @@ body {
 }
 
 .decision-section h3 {
-  margin: 0 0 0.75rem 0;
+  margin: 0 0 0.75rem;
   color: #111827;
   font-size: 1.05rem;
 }
