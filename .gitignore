@@ -1,0 +1,19 @@
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Dependencies
+**/node_modules/
+
+# Build output
+**/dist/
+**/build/
+
+# Logs
+*.log
+
+# IDE
+.vscode/settings.json
