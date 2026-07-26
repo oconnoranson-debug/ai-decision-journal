@@ -1,4 +1,6 @@
 import "./App.css";
+import DecisionCard from "./components/DecisionCard";
+import { sampleDecision } from "./models/Decision";
 
 function App() {
   return (
@@ -15,28 +17,7 @@ function App() {
       </nav>
 
       <main className="content">
-        <section className="card">
-          <h2>Welcome</h2>
-
-          <p>
-            AI Decision Journal is an enterprise workspace for recording,
-            reviewing, and learning from organizational decisions.
-          </p>
-
-          <p>
-            Every decision preserves the supporting evidence, AI
-            recommendations, human review, approvals, outcomes, and lessons
-            learned.
-          </p>
-        </section>
-
-        <section className="card">
-          <h2>Version</h2>
-
-          <p>Bootstrap Complete</p>
-
-          <p>Application Shell — Version 0.1</p>
-        </section>
+        <DecisionCard decision={sampleDecision} />
       </main>
     </div>
   );
