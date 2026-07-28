@@ -8,6 +8,7 @@ import DecisionLessons from "./DecisionLessons";
 import DecisionTimeline from "./DecisionTimeline";
 import DecisionHistory from "./DecisionHistory";
 import DecisionApprovals from "./DecisionApprovals";
+import DecisionTags from "./DecisionTags";
 
 function DecisionCard({ decision }) {
   return (
@@ -54,17 +55,7 @@ function DecisionCard({ decision }) {
 
       <DecisionApprovals />
 
-      <div className="decision-section">
-        <h3>Tags</h3>
-
-        <div className="decision-tags">
-          {decision.tags.map((tag) => (
-            <span className="decision-tag" key={tag}>
-              {tag}
-            </span>
-          ))}
-        </div>
-      </div>
+      <DecisionTags tags={decision.tags} />
 
       <div className="decision-metadata">
         <div className="metadata-item">
