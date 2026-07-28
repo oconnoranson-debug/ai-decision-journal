@@ -1,6 +1,7 @@
 import DecisionEvidence from "./DecisionEvidence";
 import DecisionOutcome from "./DecisionOutcome";
 import DecisionLessons from "./DecisionLessons";
+import DecisionTimeline from "./DecisionTimeline";
 
 function DecisionCard({ decision }) {
   return (
@@ -73,6 +74,8 @@ function DecisionCard({ decision }) {
       <DecisionOutcome />
 
       <DecisionLessons />
+
+      <DecisionTimeline />
 
       <div className="decision-section">
         <h3>Tags</h3>
