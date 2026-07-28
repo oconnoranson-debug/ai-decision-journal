@@ -2,6 +2,7 @@ import DecisionSummary from "./DecisionSummary";
 import DecisionQuestion from "./DecisionQuestion";
 import DecisionContext from "./DecisionContext";
 import DecisionEvidence from "./DecisionEvidence";
+import DecisionGovernance from "./DecisionGovernance";
 import DecisionOutcome from "./DecisionOutcome";
 import DecisionLessons from "./DecisionLessons";
 import DecisionTimeline from "./DecisionTimeline";
@@ -41,31 +42,7 @@ function DecisionCard({ decision }) {
 
       <DecisionEvidence />
 
-      <div className="decision-section">
-        <h3>Decision Governance</h3>
-
-        <p>
-          <strong>AI Recommendation:</strong>{" "}
-          {decision.governance.aiRecommendation}
-        </p>
-
-        <p>
-          <strong>Final Decision:</strong>{" "}
-          {decision.governance.finalDecision}
-        </p>
-
-        <p>
-          <strong>Rationale:</strong> {decision.governance.rationale}
-        </p>
-
-        <p>
-          <strong>Reviewer:</strong> {decision.governance.reviewer}
-        </p>
-
-        <p>
-          <strong>Reviewed:</strong> {decision.governance.reviewedAt}
-        </p>
-      </div>
+      <DecisionGovernance governance={decision.governance} />
 
       <DecisionOutcome />
 
