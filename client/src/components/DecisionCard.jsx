@@ -1,4 +1,6 @@
 import DecisionSummary from "./DecisionSummary";
+import DecisionQuestion from "./DecisionQuestion";
+import DecisionContext from "./DecisionContext";
 import DecisionEvidence from "./DecisionEvidence";
 import DecisionOutcome from "./DecisionOutcome";
 import DecisionLessons from "./DecisionLessons";
@@ -33,15 +35,9 @@ function DecisionCard({ decision }) {
 
       <DecisionSummary summary={decision.summary} />
 
-      <div className="decision-section">
-        <h3>Decision Question</h3>
-        <p>{decision.question}</p>
-      </div>
+      <DecisionQuestion question={decision.question} />
 
-      <div className="decision-section">
-        <h3>Background & Context</h3>
-        <p>{decision.context}</p>
-      </div>
+      <DecisionContext context={decision.context} />
 
       <DecisionEvidence />
 
