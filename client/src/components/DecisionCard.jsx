@@ -1,3 +1,37 @@
+/**
+ * ============================================================================
+ * AI Decision Journal
+ * Decision Workspace
+ *
+ * File: DecisionCard.jsx
+ *
+ * Purpose:
+ * Composes the complete Decision State workspace by coordinating the
+ * specialized decision workspace components.
+ *
+ * Responsibilities:
+ * - Receive a Decision domain object
+ * - Coordinate workspace composition
+ * - Delegate rendering to focused business components
+ *
+ * Dependencies:
+ * - DecisionHeader
+ * - DecisionSummary
+ * - DecisionQuestion
+ * - DecisionContext
+ * - DecisionEvidence
+ * - DecisionGovernance
+ * - DecisionOutcome
+ * - DecisionLessons
+ * - DecisionTimeline
+ * - DecisionHistory
+ * - DecisionApprovals
+ * - DecisionTags
+ * - DecisionMetadata
+ * ============================================================================
+ */
+
+import DecisionHeader from "./DecisionHeader";
 import DecisionSummary from "./DecisionSummary";
 import DecisionQuestion from "./DecisionQuestion";
 import DecisionContext from "./DecisionContext";
@@ -14,27 +48,13 @@ import DecisionMetadata from "./DecisionMetadata";
 function DecisionCard({ decision }) {
   return (
     <section className="decision-card">
-      <div className="decision-card-header">
-        <div>
-          <h2>{decision.title}</h2>
-
-          <div className="decision-header-details">
-            <span className="decision-status">{decision.status}</span>
-
-            <span className="decision-priority">
-              Priority: {decision.priority}
-            </span>
-
-            <span className="decision-type">
-              Type: {decision.type}
-            </span>
-
-            <span className="decision-owner">
-              Owner: {decision.owner}
-            </span>
-          </div>
-        </div>
-      </div>
+      <DecisionHeader
+        title={decision.title}
+        status={decision.status}
+        priority={decision.priority}
+        type={decision.type}
+        owner={decision.owner}
+      />
 
       <DecisionSummary summary={decision.summary} />
 
