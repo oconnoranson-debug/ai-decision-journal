@@ -9,6 +9,7 @@ import DecisionTimeline from "./DecisionTimeline";
 import DecisionHistory from "./DecisionHistory";
 import DecisionApprovals from "./DecisionApprovals";
 import DecisionTags from "./DecisionTags";
+import DecisionMetadata from "./DecisionMetadata";
 
 function DecisionCard({ decision }) {
   return (
@@ -57,22 +58,11 @@ function DecisionCard({ decision }) {
 
       <DecisionTags tags={decision.tags} />
 
-      <div className="decision-metadata">
-        <div className="metadata-item">
-          <span className="metadata-label">Created</span>
-          <span className="metadata-value">{decision.createdAt}</span>
-        </div>
-
-        <div className="metadata-item">
-          <span className="metadata-label">Last Updated</span>
-          <span className="metadata-value">{decision.updatedAt}</span>
-        </div>
-
-        <div className="metadata-item">
-          <span className="metadata-label">Decision ID</span>
-          <span className="metadata-value">{decision.id}</span>
-        </div>
-      </div>
+      <DecisionMetadata
+        createdAt={decision.createdAt}
+        updatedAt={decision.updatedAt}
+        id={decision.id}
+      />
     </section>
   );
 }
