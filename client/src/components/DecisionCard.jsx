@@ -3,6 +3,7 @@ import DecisionOutcome from "./DecisionOutcome";
 import DecisionLessons from "./DecisionLessons";
 import DecisionTimeline from "./DecisionTimeline";
 import DecisionHistory from "./DecisionHistory";
+import DecisionApprovals from "./DecisionApprovals";
 
 function DecisionCard({ decision }) {
   return (
@@ -79,6 +80,8 @@ function DecisionCard({ decision }) {
       <DecisionTimeline />
 
       <DecisionHistory />
+
+      <DecisionApprovals />
 
       <div className="decision-section">
         <h3>Tags</h3>
