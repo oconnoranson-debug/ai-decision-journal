@@ -1,3 +1,5 @@
+import DecisionEvidence from "./DecisionEvidence";
+
 function DecisionCard({ decision }) {
   return (
     <section className="decision-card">
@@ -36,6 +38,34 @@ function DecisionCard({ decision }) {
       <div className="decision-section">
         <h3>Background & Context</h3>
         <p>{decision.context}</p>
+      </div>
+
+      <DecisionEvidence />
+
+      <div className="decision-section">
+        <h3>Decision Governance</h3>
+
+        <p>
+          <strong>AI Recommendation:</strong>{" "}
+          {decision.governance.aiRecommendation}
+        </p>
+
+        <p>
+          <strong>Final Decision:</strong>{" "}
+          {decision.governance.finalDecision}
+        </p>
+
+        <p>
+          <strong>Rationale:</strong> {decision.governance.rationale}
+        </p>
+
+        <p>
+          <strong>Reviewer:</strong> {decision.governance.reviewer}
+        </p>
+
+        <p>
+          <strong>Reviewed:</strong> {decision.governance.reviewedAt}
+        </p>
       </div>
 
       <div className="decision-section">
