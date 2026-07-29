@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 import DecisionCard from "./components/DecisionCard";
 import DecisionList from "./components/DecisionList";
 
-import decisions from "./models/decisions";
+import decisionService from "./application/DecisionService";
 
 function App() {
-  const [selectedDecision, setSelectedDecision] = useState(decisions[0]);
+  const [decisions, setDecisions] = useState([]);
+  const [selectedDecision, setSelectedDecision] = useState(null);
+
+  useEffect(() => {
+    async function loadDecisions() {
+      const data = await decisionService.getDecisions();
+
+      setDecisions(data);
+
+      if (data.length > 0) {
+        setSelectedDecision(data[0]);
+      }
+    }
+
+    loadDecisions();
+  }, []);
 
   return (
     <div className="app">
@@ -30,7 +45,9 @@ function App() {
             onSelectDecision={setSelectedDecision}
           />
 
-          <DecisionCard decision={selectedDecision} />
+          {selectedDecision && (
+            <DecisionCard decision={selectedDecision} />
+          )}
         </div>
       </main>
     </div>
