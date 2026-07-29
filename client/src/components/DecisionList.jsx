@@ -1,3 +1,13 @@
+/**
+ * ============================================================================
+ * AI Decision Journal
+ * Decision List
+ *
+ * Purpose:
+ * Displays the list of Decisions available in the workspace.
+ * ============================================================================
+ */
+
 function DecisionList({
   decisions,
   selectedDecision,
@@ -10,16 +20,18 @@ function DecisionList({
       <div className="decision-list-items">
         {decisions.map((decision) => (
           <button
-            key={decision.id}
+            key={decision.identity.id}
             type="button"
             className={`decision-list-item ${
-              decision.id === selectedDecision.id ? "selected" : ""
+              decision.identity.id === selectedDecision.identity.id
+                ? "selected"
+                : ""
             }`}
             onClick={() => onSelectDecision(decision)}
           >
-            <h3>{decision.title}</h3>
+            <h3>{decision.identity.title}</h3>
 
-            <p>{decision.status}</p>
+            <p>{decision.identity.status}</p>
           </button>
         ))}
       </div>

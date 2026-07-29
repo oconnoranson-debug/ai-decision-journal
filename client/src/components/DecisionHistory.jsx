@@ -1,64 +1,55 @@
-function DecisionHistory() {
-  const history = [
-    {
-      field: "Status",
-      previous: "Draft",
-      current: "Approved",
-      updatedBy: "Architecture Review Board",
-      updatedAt: "2026-07-26",
-    },
-    {
-      field: "Priority",
-      previous: "Medium",
-      current: "High",
-      updatedBy: "Decision Owner",
-      updatedAt: "2026-07-26",
-    },
-    {
-      field: "Evidence",
-      previous: "3 Supporting Sources",
-      current: "5 Supporting Sources",
-      updatedBy: "Knowledge Workspace",
-      updatedAt: "2026-07-26",
-    },
-    {
-      field: "AI Recommendation",
-      previous: "Pending",
-      current: "Recommendation Generated",
-      updatedBy: "AI Decision Assistant",
-      updatedAt: "2026-07-26",
-    },
-  ];
+/**
+ * ============================================================================
+ * AI Decision Journal
+ * Decision History
+ *
+ * File: DecisionHistory.jsx
+ *
+ * Purpose:
+ * Renders the audit history associated with a Decision.
+ *
+ * Responsibilities:
+ * - Receive history records from the Decision domain object
+ * - Show previous and current values
+ * - Identify who made each update and when
+ * - Present an empty state when no history is available
+ *
+ * Dependencies:
+ * - None
+ * ============================================================================
+ */
 
+function DecisionHistory({ history = [] }) {
   return (
     <section className="decision-section">
       <h3>Decision History</h3>
 
       <div className="decision-history">
-        {history.map((change) => (
-          <div
-            className="history-entry"
-            key={`${change.field}-${change.updatedAt}`}
-          >
-            <h4>{change.field}</h4>
+        {history.length > 0 ? (
+          history.map((change) => (
+            <div className="history-entry" key={change.id}>
+              <h4>{change.field}</h4>
 
-            <p>
-              <strong>Previous:</strong> {change.previous}
-            </p>
+              <p>
+                <strong>Previous:</strong> {change.previousValue}
+              </p>
 
-            <p>
-              <strong>Current:</strong> {change.current}
-            </p>
+              <p>
+                <strong>Current:</strong> {change.currentValue}
+              </p>
 
-            <p>
-              <strong>Updated By:</strong> {change.updatedBy}
-            </p>
+              <p>
+                <strong>Updated By:</strong> {change.updatedBy}
+              </p>
 
-            <p>
-              <strong>Date:</strong> {change.updatedAt}
-            </p>
-          </div>
-        ))}
+              <p>
+                <strong>Date:</strong> {change.updatedAt}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p>No decision history has been recorded.</p>
+        )}
       </div>
     </section>
   );

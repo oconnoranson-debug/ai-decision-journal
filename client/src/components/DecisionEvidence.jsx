@@ -1,43 +1,48 @@
-function DecisionEvidence() {
-  const evidence = [
-    {
-      id: "evidence-001",
-      title: "AI Decision Journal Product Vision",
-      source: "Knowledge Assistant",
-      excerpt:
-        "Organizations require a dedicated system for preserving AI-assisted decisions with governance and long-term organizational learning.",
-      confidence: "High",
-    },
-    {
-      id: "evidence-002",
-      title: "Decision State Architecture",
-      source: "Architecture Notes",
-      excerpt:
-        "Decision State should remain independent from Knowledge State and Execution State to preserve ownership boundaries.",
-      confidence: "High",
-    },
-  ];
+/**
+ * ============================================================================
+ * AI Decision Journal
+ * Decision Evidence
+ *
+ * File: DecisionEvidence.jsx
+ *
+ * Purpose:
+ * Renders the evidence supporting a Decision.
+ *
+ * Responsibilities:
+ * - Receive evidence records from the Decision domain object
+ * - Render source, summary, and confidence information
+ * - Present an empty state when no evidence is available
+ *
+ * Dependencies:
+ * - None
+ * ============================================================================
+ */
 
+function DecisionEvidence({ evidence = [] }) {
   return (
-    <div className="decision-section">
+    <section className="decision-section">
       <h3>Decision Evidence</h3>
 
-      {evidence.map((item) => (
-        <div className="evidence-card" key={item.id}>
-          <h4>{item.title}</h4>
+      {evidence.length > 0 ? (
+        evidence.map((item) => (
+          <div className="evidence-card" key={item.id}>
+            <h4>{item.title}</h4>
 
-          <p>
-            <strong>Source:</strong> {item.source}
-          </p>
+            <p>
+              <strong>Source:</strong> {item.source}
+            </p>
 
-          <p>{item.excerpt}</p>
+            <p>{item.summary}</p>
 
-          <p>
-            <strong>Confidence:</strong> {item.confidence}
-          </p>
-        </div>
-      ))}
-    </div>
+            <p>
+              <strong>Confidence:</strong> {item.confidence}
+            </p>
+          </div>
+        ))
+      ) : (
+        <p>No supporting evidence has been recorded.</p>
+      )}
+    </section>
   );
 }
 

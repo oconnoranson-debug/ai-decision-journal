@@ -49,11 +49,11 @@ function DecisionCard({ decision }) {
   return (
     <section className="decision-card">
       <DecisionHeader
-        title={decision.title}
-        status={decision.status}
-        priority={decision.priority}
-        type={decision.type}
-        owner={decision.owner}
+        title={decision.identity.title}
+        status={decision.identity.status}
+        priority={decision.identity.priority}
+        type={decision.identity.type}
+        owner={decision.identity.owner}
       />
 
       <DecisionSummary summary={decision.summary} />
@@ -62,26 +62,26 @@ function DecisionCard({ decision }) {
 
       <DecisionContext context={decision.context} />
 
-      <DecisionEvidence />
+      <DecisionEvidence evidence={decision.evidence} />
 
       <DecisionGovernance governance={decision.governance} />
 
-      <DecisionOutcome />
+      <DecisionOutcome outcome={decision.outcome} />
 
-      <DecisionLessons />
+      <DecisionLessons lessons={decision.lessons} />
 
-      <DecisionTimeline />
+      <DecisionTimeline timeline={decision.timeline} />
 
-      <DecisionHistory />
+      <DecisionHistory history={decision.history} />
 
-      <DecisionApprovals />
+      <DecisionApprovals approvals={decision.approvals} />
 
       <DecisionTags tags={decision.tags} />
 
       <DecisionMetadata
-        createdAt={decision.createdAt}
-        updatedAt={decision.updatedAt}
-        id={decision.id}
+        createdAt={decision.metadata.createdAt}
+        updatedAt={decision.metadata.updatedAt}
+        id={decision.identity.id}
       />
     </section>
   );
