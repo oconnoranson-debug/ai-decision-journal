@@ -1,8 +1,12 @@
-import { supabase } from "../infrastructure/supabase/client";
+import browserSupabase from "../infrastructure/supabase/client";
 import DecisionPersistenceMapper from "./DecisionPersistenceMapper";
 
 class DecisionPersistence {
-  static async clearDatabase() {
+  constructor(client = browserSupabase) {
+    this.db = client;
+  }
+
+  async clearDatabase() {
     const tables = [
       "decision_tags",
       "decision_approvals",
@@ -13,7 +17,7 @@ class DecisionPersistence {
     ];
 
     for (const table of tables) {
-      const { error } = await supabase
+      const { error } = await this.db
         .from(table)
         .delete()
         .neq("id", "");
@@ -24,16 +28,16 @@ class DecisionPersistence {
     }
   }
 
-  static async saveDecision(decision) {
+  async saveDecision(decision) {
     const decisionRow =
       DecisionPersistenceMapper.toDecisionRow(decision);
 
-    const { error: decisionError } = await supabase
+    const { error } = await this.db
       .from("decisions")
       .upsert(decisionRow);
 
-    if (decisionError) {
-      throw decisionError;
+    if (error) {
+      throw error;
     }
 
     await this.insertEvidence(decision);
@@ -43,13 +47,13 @@ class DecisionPersistence {
     await this.insertTags(decision);
   }
 
-  static async insertEvidence(decision) {
+  async insertEvidence(decision) {
     const rows =
       DecisionPersistenceMapper.toEvidenceRows(decision);
 
     if (!rows.length) return;
 
-    const { error } = await supabase
+    const { error } = await this.db
       .from("decision_evidence")
       .upsert(rows);
 
@@ -58,13 +62,13 @@ class DecisionPersistence {
     }
   }
 
-  static async insertTimeline(decision) {
+  async insertTimeline(decision) {
     const rows =
       DecisionPersistenceMapper.toTimelineRows(decision);
 
     if (!rows.length) return;
 
-    const { error } = await supabase
+    const { error } = await this.db
       .from("decision_timeline")
       .upsert(rows);
 
@@ -73,13 +77,13 @@ class DecisionPersistence {
     }
   }
 
-  static async insertHistory(decision) {
+  async insertHistory(decision) {
     const rows =
       DecisionPersistenceMapper.toHistoryRows(decision);
 
     if (!rows.length) return;
 
-    const { error } = await supabase
+    const { error } = await this.db
       .from("decision_history")
       .upsert(rows);
 
@@ -88,13 +92,13 @@ class DecisionPersistence {
     }
   }
 
-  static async insertApprovals(decision) {
+  async insertApprovals(decision) {
     const rows =
       DecisionPersistenceMapper.toApprovalRows(decision);
 
     if (!rows.length) return;
 
-    const { error } = await supabase
+    const { error } = await this.db
       .from("decision_approvals")
       .upsert(rows);
 
@@ -103,13 +107,13 @@ class DecisionPersistence {
     }
   }
 
-  static async insertTags(decision) {
+  async insertTags(decision) {
     const rows =
       DecisionPersistenceMapper.toTagRows(decision);
 
     if (!rows.length) return;
 
-    const { error } = await supabase
+    const { error } = await this.db
       .from("decision_tags")
       .upsert(rows);
 
