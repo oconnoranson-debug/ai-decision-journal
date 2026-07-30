@@ -67,11 +67,20 @@ export default class SupabaseDecisionRepository extends DecisionRepository {
 
   /**
    * Creates a decision.
-   *
-   * Placeholder implementation.
    */
   async create(decision) {
-    throw new Error("create() not implemented.");
+    const { data, error } = await supabase
+      .from("decisions")
+      .insert([decision])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("Failed to create decision:", error);
+      throw error;
+    }
+
+    return data;
   }
 
   /**
