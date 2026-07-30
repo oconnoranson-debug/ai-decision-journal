@@ -4,100 +4,57 @@
  * Supabase Decision Repository
  *
  * Purpose:
- * Implements DecisionRepository using Supabase persistence.
+ * Implements the DecisionRepository contract by delegating persistence
+ * operations to the DecisionPersistence layer.
  *
  * Responsibilities:
- * - Load decision summaries
- * - Load complete decision aggregates
- * - Persist decisions
- * - Hide persistence details from the application layer
+ * - Expose repository operations to the application layer
+ * - Delegate persistence concerns
+ * - Hide persistence implementation details
  * ============================================================================
  */
 
 import DecisionRepository from "./DecisionRepository";
-import supabase from "../infrastructure/supabase/client";
+import DecisionPersistence from "../persistence/DecisionPersistence";
 
 export default class SupabaseDecisionRepository extends DecisionRepository {
+  constructor() {
+    super();
+    this.persistence = new DecisionPersistence();
+  }
+
   /**
    * Returns all decision summaries.
    */
   async getAll() {
-    const { data, error } = await supabase
-      .from("decisions")
-      .select(`
-        id,
-        title,
-        status,
-        priority,
-        decision_type,
-        owner,
-        summary
-      `)
-      .order("created_at", { ascending: false });
-
-    if (error) {
-      console.error("Failed to load decisions:", error);
-      throw error;
-    }
-
-    return data;
+    return this.persistence.getAll();
   }
 
   /**
-   * Returns a single decision.
-   *
-   * This currently loads only the primary decision record.
-   * Related collections (evidence, approvals, history, timeline, etc.)
-   * will be added in subsequent milestones.
+   * Returns a complete decision aggregate.
    */
   async getById(id) {
-    const { data, error } = await supabase
-      .from("decisions")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-    if (error) {
-      console.error(`Failed to load decision '${id}':`, error);
-      throw error;
-    }
-
-    return data;
+    return this.persistence.getById(id);
   }
 
   /**
    * Creates a decision.
    */
   async create(decision) {
-    const { data, error } = await supabase
-      .from("decisions")
-      .insert([decision])
-      .select()
-      .single();
-
-    if (error) {
-      console.error("Failed to create decision:", error);
-      throw error;
-    }
-
-    return data;
+    return this.persistence.create(decision);
   }
 
   /**
    * Updates a decision.
-   *
-   * Placeholder implementation.
    */
   async update(id, decision) {
-    throw new Error("update() not implemented.");
+    return this.persistence.update(id, decision);
   }
 
   /**
    * Deletes a decision.
-   *
-   * Placeholder implementation.
    */
   async delete(id) {
-    throw new Error("delete() not implemented.");
+    return this.persistence.delete(id);
   }
 }

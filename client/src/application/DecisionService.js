@@ -1,4 +1,4 @@
-import MockDecisionRepository from "../repositories/MockDecisionRepository";
+import SupabaseDecisionRepository from "../repositories/SupabaseDecisionRepository";
 
 /**
  * DecisionService
@@ -9,7 +9,7 @@ import MockDecisionRepository from "../repositories/MockDecisionRepository";
  * directly with repositories or persistence implementations.
  */
 class DecisionService {
-  constructor(repository = new MockDecisionRepository()) {
+  constructor(repository = new SupabaseDecisionRepository()) {
     this.repository = repository;
   }
 
