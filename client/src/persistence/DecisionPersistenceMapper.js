@@ -7,46 +7,84 @@ class DecisionPersistenceMapper {
       priority: decision.priority,
       decision_type: decision.decisionType,
       owner: decision.owner,
+
       summary: decision.summary,
+      question: decision.question,
+      context: decision.context,
+
+      ai_recommendation: decision.aiRecommendation,
+      final_decision: decision.finalDecision,
+      rationale: decision.rationale,
+
+      implementation_status: decision.implementationStatus,
+      expected_outcome: decision.expectedOutcome,
+      actual_outcome: decision.actualOutcome,
+      outcome_date: decision.outcomeDate,
+
+      lesson: decision.lesson,
+      worked: decision.worked,
+      didnt_work: decision.didntWork,
+      adjustment: decision.adjustment,
+
+      reviewer: decision.reviewer,
+      reviewed_at: decision.reviewedAt,
     };
   }
 
   static toEvidenceRows(decision) {
-    return (decision.evidence || []).map((evidence) => ({
+    return (decision.evidence || []).map((evidence, index) => ({
+      id: evidence.id,
       decision_id: decision.id,
+      knowledge_chunk_id: evidence.knowledgeChunkId ?? null,
       title: evidence.title,
       source: evidence.source,
-      excerpt: evidence.excerpt,
+      summary: evidence.summary,
       confidence: evidence.confidence,
+      sort_order: index,
     }));
   }
 
   static toTimelineRows(decision) {
-    return (decision.timeline || []).map((event) => ({
+    return (decision.timeline || []).map((event, index) => ({
+      id: event.id,
       decision_id: decision.id,
-      timestamp: event.timestamp,
-      type: event.type,
+      label: event.label,
+      event_date: event.eventDate,
       description: event.description,
+      sort_order: index,
     }));
   }
 
   static toHistoryRows(decision) {
     return (decision.history || []).map((entry) => ({
+      id: entry.id,
       decision_id: decision.id,
-      timestamp: entry.timestamp,
-      action: entry.action,
-      actor: entry.actor,
-      notes: entry.notes,
+      field: entry.field,
+      previous_value: entry.previousValue,
+      current_value: entry.currentValue,
+      updated_by: entry.updatedBy,
+      updated_at: entry.updatedAt,
     }));
   }
 
   static toApprovalRows(decision) {
     return (decision.approvals || []).map((approval) => ({
+      id: approval.id,
       decision_id: decision.id,
       approver: approval.approver,
+      role: approval.role,
       status: approval.status,
-      date: approval.date,
+      approval_date: approval.approvalDate,
       comments: approval.comments,
+    }));
+  }
+
+  static toTagRows(decision) {
+    return (decision.tags || []).map((tag, index) => ({
+      id: `${decision.id}-tag-${index + 1}`,
+      decision_id: decision.id,
+      tag,
+      sort_order: index,
     }));
   }
 
@@ -56,6 +94,7 @@ class DecisionPersistenceMapper {
     timeline = [],
     history = [],
     approvals = [],
+    tags = [],
   }) {
     return {
       id: decision.id,
@@ -64,12 +103,33 @@ class DecisionPersistenceMapper {
       priority: decision.priority,
       decisionType: decision.decision_type,
       owner: decision.owner,
+
       summary: decision.summary,
+      question: decision.question,
+      context: decision.context,
+
+      aiRecommendation: decision.ai_recommendation,
+      finalDecision: decision.final_decision,
+      rationale: decision.rationale,
+
+      implementationStatus: decision.implementation_status,
+      expectedOutcome: decision.expected_outcome,
+      actualOutcome: decision.actual_outcome,
+      outcomeDate: decision.outcome_date,
+
+      lesson: decision.lesson,
+      worked: decision.worked,
+      didntWork: decision.didnt_work,
+      adjustment: decision.adjustment,
+
+      reviewer: decision.reviewer,
+      reviewedAt: decision.reviewed_at,
 
       evidence,
       timeline,
       history,
       approvals,
+      tags: tags.map((t) => t.tag),
     };
   }
 }
