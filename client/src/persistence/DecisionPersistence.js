@@ -6,6 +6,127 @@ class DecisionPersistence {
     this.db = client;
   }
 
+  async getAll() {
+    const { data, error } = await this.db
+      .from("decisions")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    return (data || []).map((decision) =>
+      DecisionPersistenceMapper.fromPersistence({
+        decision,
+      })
+    );
+  }
+
+  async getById(id) {
+    const { data: decision, error: decisionError } = await this.db
+      .from("decisions")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (decisionError) {
+      throw decisionError;
+    }
+
+    const [
+      { data: evidence = [], error: evidenceError },
+      { data: timeline = [], error: timelineError },
+      { data: history = [], error: historyError },
+      { data: approvals = [], error: approvalsError },
+      { data: tags = [], error: tagsError },
+    ] = await Promise.all([
+      this.db
+        .from("decision_evidence")
+        .select("*")
+        .eq("decision_id", id)
+        .order("sort_order"),
+
+      this.db
+        .from("decision_timeline")
+        .select("*")
+        .eq("decision_id", id)
+        .order("sort_order"),
+
+      this.db
+        .from("decision_history")
+        .select("*")
+        .eq("decision_id", id)
+        .order("updated_at", { ascending: true }),
+
+      this.db
+        .from("decision_approvals")
+        .select("*")
+        .eq("decision_id", id),
+
+      this.db
+        .from("decision_tags")
+        .select("*")
+        .eq("decision_id", id)
+        .order("sort_order"),
+    ]);
+
+    if (evidenceError) throw evidenceError;
+    if (timelineError) throw timelineError;
+    if (historyError) throw historyError;
+    if (approvalsError) throw approvalsError;
+    if (tagsError) throw tagsError;
+
+    return DecisionPersistenceMapper.fromPersistence({
+      decision,
+      evidence,
+      timeline,
+      history,
+      approvals,
+      tags,
+    });
+  }
+
+  async create(decision) {
+    await this.saveDecision(decision);
+    return this.getById(decision.identity.id);
+  }
+
+  async update(id, decision) {
+    await this.saveDecision(decision);
+    return this.getById(id);
+  }
+
+  async delete(id) {
+    const tables = [
+      "decision_tags",
+      "decision_approvals",
+      "decision_history",
+      "decision_timeline",
+      "decision_evidence",
+    ];
+
+    for (const table of tables) {
+      const { error } = await this.db
+        .from(table)
+        .delete()
+        .eq("decision_id", id);
+
+      if (error) {
+        throw error;
+      }
+    }
+
+    const { error } = await this.db
+      .from("decisions")
+      .delete()
+      .eq("id", id);
+
+    if (error) {
+      throw error;
+    }
+  }
+
   async clearDatabase() {
     const tables = [
       "decision_tags",
