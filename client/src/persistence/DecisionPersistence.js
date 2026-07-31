@@ -1,8 +1,13 @@
-import browserSupabase from "../infrastructure/supabase/client";
 import DecisionPersistenceMapper from "./DecisionPersistenceMapper";
 
 class DecisionPersistence {
-  constructor(client = browserSupabase) {
+  constructor(client) {
+    if (!client) {
+      throw new Error(
+        "DecisionPersistence requires a Supabase client."
+      );
+    }
+
     this.db = client;
   }
 
@@ -12,9 +17,7 @@ class DecisionPersistence {
       .select("*")
       .order("created_at", { ascending: false });
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     return (data || []).map((decision) =>
       DecisionPersistenceMapper.fromPersistence({
@@ -30,9 +33,7 @@ class DecisionPersistence {
       .eq("id", id)
       .single();
 
-    if (decisionError) {
-      throw decisionError;
-    }
+    if (decisionError) throw decisionError;
 
     const [
       { data: evidence = [], error: evidenceError },
@@ -112,9 +113,7 @@ class DecisionPersistence {
         .delete()
         .eq("decision_id", id);
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
     }
 
     const { error } = await this.db
@@ -122,9 +121,7 @@ class DecisionPersistence {
       .delete()
       .eq("id", id);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 
   async clearDatabase() {
@@ -143,9 +140,7 @@ class DecisionPersistence {
         .delete()
         .neq("id", "");
 
-      if (error) {
-        throw error;
-      }
+      if (error) throw error;
     }
   }
 
@@ -157,9 +152,7 @@ class DecisionPersistence {
       .from("decisions")
       .upsert(decisionRow);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
 
     await this.insertEvidence(decision);
     await this.insertTimeline(decision);
@@ -178,9 +171,7 @@ class DecisionPersistence {
       .from("decision_evidence")
       .upsert(rows);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 
   async insertTimeline(decision) {
@@ -193,9 +184,7 @@ class DecisionPersistence {
       .from("decision_timeline")
       .upsert(rows);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 
   async insertHistory(decision) {
@@ -208,9 +197,7 @@ class DecisionPersistence {
       .from("decision_history")
       .upsert(rows);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 
   async insertApprovals(decision) {
@@ -223,9 +210,7 @@ class DecisionPersistence {
       .from("decision_approvals")
       .upsert(rows);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 
   async insertTags(decision) {
@@ -238,9 +223,7 @@ class DecisionPersistence {
       .from("decision_tags")
       .upsert(rows);
 
-    if (error) {
-      throw error;
-    }
+    if (error) throw error;
   }
 }
 

@@ -16,11 +16,12 @@
 
 import DecisionRepository from "./DecisionRepository";
 import DecisionPersistence from "../persistence/DecisionPersistence";
+import browserSupabase from "../infrastructure/supabase/client";
 
 export default class SupabaseDecisionRepository extends DecisionRepository {
   constructor() {
     super();
-    this.persistence = new DecisionPersistence();
+    this.persistence = new DecisionPersistence(browserSupabase);
   }
 
   /**
