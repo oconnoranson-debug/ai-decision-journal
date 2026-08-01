@@ -15,7 +15,7 @@
  */
 
 import DecisionRepository from "./DecisionRepository";
-import DecisionPersistence from "../persistence/DecisionPersistence";
+import DecisionPersistence from "../../../src/persistence/DecisionPersistence.js";
 import browserSupabase from "../infrastructure/supabase/client";
 
 export default class SupabaseDecisionRepository extends DecisionRepository {

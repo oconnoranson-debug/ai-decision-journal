@@ -23,7 +23,7 @@ import {
   DecisionStatus,
   DecisionPriority,
   DecisionType,
-} from "../domain/decisionLifecycle";
+} from "../domain/decisionLifecycle.js";
 
 const decisions = [
   {
@@ -81,7 +81,7 @@ const decisions = [
         "Improve operational consistency while reducing manual review time across the approval process.",
       actualOutcome:
         "Outcome evaluation is still underway. Initial implementation has been completed, but long-term operational results have not yet been measured.",
-      outcomeDate: "Pending",
+      outcomeDate: null,
     },
 
     lessons: {
@@ -134,14 +134,14 @@ const decisions = [
       {
         id: "timeline-006",
         label: "Outcome Evaluation",
-        date: "Pending",
+        date: null,
         description:
           "Operational results will be recorded after implementation has been evaluated.",
       },
       {
         id: "timeline-007",
         label: "Lessons Captured",
-        date: "Pending",
+        date: null,
         description:
           "Lessons learned will continue evolving as additional organizational experience is gathered.",
       },
@@ -584,7 +584,7 @@ const decisions = [
         approver: "Platform Team",
         role: "Runtime Owner",
         status: "Pending",
-        date: "Pending",
+        date: null,
         comments:
           "Final approval depends on validating the runtime boundary across additional applications.",
       },

@@ -10,14 +10,35 @@ function App() {
   const [decisions, setDecisions] = useState([]);
   const [selectedDecision, setSelectedDecision] = useState(null);
 
+  async function loadDecision(decisionSummary) {
+    if (!decisionSummary) {
+      setSelectedDecision(null);
+      return;
+    }
+
+    try {
+      const decision = await decisionService.getDecision(
+        decisionSummary.identity.id
+      );
+
+      setSelectedDecision(decision);
+    } catch (error) {
+      console.error("Failed to load decision.", error);
+    }
+  }
+
   useEffect(() => {
     async function loadDecisions() {
-      const data = await decisionService.getDecisions();
+      try {
+        const summaries = await decisionService.getDecisions();
 
-      setDecisions(data);
+        setDecisions(summaries);
 
-      if (data.length > 0) {
-        setSelectedDecision(data[0]);
+        if (summaries.length > 0) {
+          await loadDecision(summaries[0]);
+        }
+      } catch (error) {
+        console.error("Failed to load decisions.", error);
       }
     }
 
@@ -42,7 +63,7 @@ function App() {
           <DecisionList
             decisions={decisions}
             selectedDecision={selectedDecision}
-            onSelectDecision={setSelectedDecision}
+            onSelectDecision={loadDecision}
           />
 
           {selectedDecision && (

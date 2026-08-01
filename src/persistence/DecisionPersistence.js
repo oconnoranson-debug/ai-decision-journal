@@ -1,4 +1,4 @@
-import DecisionPersistenceMapper from "./DecisionPersistenceMapper";
+import DecisionPersistenceMapper from "./DecisionPersistenceMapper.js";
 
 class DecisionPersistence {
   constructor(client) {
