@@ -113,6 +113,15 @@ function DecisionCard({
     setSaveError(null);
   }
 
+  function handleOutcomeChange(outcome) {
+    setWorkingDecision((current) => ({
+      ...current,
+      outcome,
+    }));
+
+    setSaveError(null);
+  }
+
   async function handleSave() {
     if (!isDirty || isSaving) {
       return;
@@ -221,6 +230,7 @@ function DecisionCard({
 
       <DecisionOutcome
         outcome={workingDecision.outcome}
+        onOutcomeChange={handleOutcomeChange}
       />
 
       <DecisionLessons
