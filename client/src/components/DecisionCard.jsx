@@ -86,6 +86,24 @@ function DecisionCard({
     setSaveError(null);
   }
 
+  function handleQuestionChange(question) {
+    setWorkingDecision((current) => ({
+      ...current,
+      question,
+    }));
+
+    setSaveError(null);
+  }
+
+  function handleContextChange(context) {
+    setWorkingDecision((current) => ({
+      ...current,
+      context,
+    }));
+
+    setSaveError(null);
+  }
+
   async function handleSave() {
     if (!isDirty || isSaving) {
       return;
@@ -160,7 +178,10 @@ function DecisionCard({
       )}
 
       {saveError && (
-        <p className="decision-save-error" role="alert">
+        <p
+          className="decision-save-error"
+          role="alert"
+        >
           {saveError}
         </p>
       )}
@@ -170,25 +191,47 @@ function DecisionCard({
         onSummaryChange={handleSummaryChange}
       />
 
-      <DecisionQuestion question={workingDecision.question} />
+      <DecisionQuestion
+        question={workingDecision.question}
+        onQuestionChange={handleQuestionChange}
+      />
 
-      <DecisionContext context={workingDecision.context} />
+      <DecisionContext
+        context={workingDecision.context}
+        onContextChange={handleContextChange}
+      />
 
-      <DecisionEvidence evidence={workingDecision.evidence} />
+      <DecisionEvidence
+        evidence={workingDecision.evidence}
+      />
 
-      <DecisionGovernance governance={workingDecision.governance} />
+      <DecisionGovernance
+        governance={workingDecision.governance}
+      />
 
-      <DecisionOutcome outcome={workingDecision.outcome} />
+      <DecisionOutcome
+        outcome={workingDecision.outcome}
+      />
 
-      <DecisionLessons lessons={workingDecision.lessons} />
+      <DecisionLessons
+        lessons={workingDecision.lessons}
+      />
 
-      <DecisionTimeline timeline={workingDecision.timeline} />
+      <DecisionTimeline
+        timeline={workingDecision.timeline}
+      />
 
-      <DecisionHistory history={workingDecision.history} />
+      <DecisionHistory
+        history={workingDecision.history}
+      />
 
-      <DecisionApprovals approvals={workingDecision.approvals} />
+      <DecisionApprovals
+        approvals={workingDecision.approvals}
+      />
 
-      <DecisionTags tags={workingDecision.tags} />
+      <DecisionTags
+        tags={workingDecision.tags}
+      />
 
       <DecisionMetadata
         createdAt={workingDecision.metadata.createdAt}

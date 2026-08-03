@@ -1,8 +1,18 @@
-function DecisionQuestion({ question }) {
+function DecisionQuestion({
+  question,
+  onQuestionChange,
+}) {
   return (
     <section className="decision-section">
       <h3>Decision Question</h3>
-      <p>{question}</p>
+
+      <textarea
+        rows={3}
+        value={question}
+        onChange={(event) =>
+          onQuestionChange(event.target.value)
+        }
+      />
     </section>
   );
 }
