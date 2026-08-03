@@ -1,4 +1,5 @@
 import SupabaseDecisionRepository from "../repositories/SupabaseDecisionRepository";
+import DecisionFactory from "../../../src/factories/DecisionFactory.js";
 
 /**
  * DecisionService
@@ -21,7 +22,12 @@ class DecisionService {
     return this.repository.getById(id);
   }
 
-  async createDecision(decision) {
+  /**
+   * Creates a new Decision using the canonical DecisionFactory.
+   */
+  async createDecision() {
+    const decision = DecisionFactory.create();
+
     return this.repository.create(decision);
   }
 

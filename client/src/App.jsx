@@ -27,22 +27,40 @@ function App() {
     }
   }
 
-  useEffect(() => {
-    async function loadDecisions() {
-      try {
-        const summaries = await decisionService.getDecisions();
+  async function refreshDecisions(selectedId = null) {
+    try {
+      const summaries = await decisionService.getDecisions();
 
-        setDecisions(summaries);
+      setDecisions(summaries);
 
-        if (summaries.length > 0) {
-          await loadDecision(summaries[0]);
-        }
-      } catch (error) {
-        console.error("Failed to load decisions.", error);
+      if (!summaries.length) {
+        setSelectedDecision(null);
+        return;
       }
-    }
 
-    loadDecisions();
+      const summaryToLoad =
+        summaries.find(
+          (decision) => decision.identity.id === selectedId
+        ) || summaries[0];
+
+      await loadDecision(summaryToLoad);
+    } catch (error) {
+      console.error("Failed to refresh decisions.", error);
+    }
+  }
+
+  async function handleNewDecision() {
+    try {
+      const decision = await decisionService.createDecision();
+
+      await refreshDecisions(decision.identity.id);
+    } catch (error) {
+      console.error("Failed to create decision.", error);
+    }
+  }
+
+  useEffect(() => {
+    refreshDecisions();
   }, []);
 
   return (
@@ -55,7 +73,10 @@ function App() {
       <nav className="navigation">
         <button>Dashboard</button>
         <button>Decisions</button>
-        <button>New Decision</button>
+
+        <button onClick={handleNewDecision}>
+          New Decision
+        </button>
       </nav>
 
       <main className="content">
