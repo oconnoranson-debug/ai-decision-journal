@@ -6,51 +6,95 @@
  * File: DecisionLessons.jsx
  *
  * Purpose:
- * Displays organizational learning captured from a Decision.
+ * Provides an editable workspace for capturing organizational learning
+ * resulting from a Decision.
  *
  * Responsibilities:
- * - Render lessons learned
- * - Highlight successes and failures
- * - Capture recommended adjustments
- * - Present an empty state when no lessons exist
+ * - Edit key lesson
+ * - Edit what worked
+ * - Edit what did not work
+ * - Edit recommended adjustment
  * ============================================================================
  */
 
-function DecisionLessons({ lessons = {} }) {
-  if (Object.keys(lessons).length === 0) {
-    return (
-      <section className="decision-section">
-        <h3>Lessons Learned</h3>
-        <p>No lessons have been recorded.</p>
-      </section>
-    );
+function DecisionLessons({
+  lessons,
+  onLessonsChange,
+}) {
+  function update(field, value) {
+    onLessonsChange({
+      ...lessons,
+      [field]: value,
+    });
   }
 
   return (
     <section className="decision-section">
       <h3>Lessons Learned</h3>
 
-      <div className="decision-lessons">
-        <div className="lesson-item">
-          <span className="label">Key Lesson</span>
-          <p className="value">{lessons.keyLesson}</p>
-        </div>
+      <label>
+        <strong>Key Lesson</strong>
 
-        <div className="lesson-item">
-          <span className="label">What Worked</span>
-          <p className="value">{lessons.whatWorked}</p>
-        </div>
+        <textarea
+          rows={3}
+          placeholder="Summarize the most important lesson..."
+          value={lessons.keyLesson ?? ""}
+          onChange={(event) =>
+            update(
+              "keyLesson",
+              event.target.value
+            )
+          }
+        />
+      </label>
 
-        <div className="lesson-item">
-          <span className="label">What Did Not Work</span>
-          <p className="value">{lessons.whatDidNotWork}</p>
-        </div>
+      <label>
+        <strong>What Worked</strong>
 
-        <div className="lesson-item">
-          <span className="label">Recommended Adjustment</span>
-          <p className="value">{lessons.recommendedAdjustment}</p>
-        </div>
-      </div>
+        <textarea
+          rows={4}
+          placeholder="Describe what contributed to success..."
+          value={lessons.whatWorked ?? ""}
+          onChange={(event) =>
+            update(
+              "whatWorked",
+              event.target.value
+            )
+          }
+        />
+      </label>
+
+      <label>
+        <strong>What Didn't Work</strong>
+
+        <textarea
+          rows={4}
+          placeholder="Describe challenges or shortcomings..."
+          value={lessons.whatDidNotWork ?? ""}
+          onChange={(event) =>
+            update(
+              "whatDidNotWork",
+              event.target.value
+            )
+          }
+        />
+      </label>
+
+      <label>
+        <strong>Recommended Adjustment</strong>
+
+        <textarea
+          rows={4}
+          placeholder="Describe improvements for future decisions..."
+          value={lessons.recommendedAdjustment ?? ""}
+          onChange={(event) =>
+            update(
+              "recommendedAdjustment",
+              event.target.value
+            )
+          }
+        />
+      </label>
     </section>
   );
 }

@@ -122,6 +122,15 @@ function DecisionCard({
     setSaveError(null);
   }
 
+  function handleLessonsChange(lessons) {
+    setWorkingDecision((current) => ({
+      ...current,
+      lessons,
+    }));
+
+    setSaveError(null);
+  }
+
   async function handleSave() {
     if (!isDirty || isSaving) {
       return;
@@ -235,6 +244,7 @@ function DecisionCard({
 
       <DecisionLessons
         lessons={workingDecision.lessons}
+        onLessonsChange={handleLessonsChange}
       />
 
       <DecisionTimeline
