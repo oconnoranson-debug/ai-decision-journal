@@ -104,6 +104,15 @@ function DecisionCard({
     setSaveError(null);
   }
 
+  function handleGovernanceChange(governance) {
+    setWorkingDecision((current) => ({
+      ...current,
+      governance,
+    }));
+
+    setSaveError(null);
+  }
+
   async function handleSave() {
     if (!isDirty || isSaving) {
       return;
@@ -207,6 +216,7 @@ function DecisionCard({
 
       <DecisionGovernance
         governance={workingDecision.governance}
+        onGovernanceChange={handleGovernanceChange}
       />
 
       <DecisionOutcome

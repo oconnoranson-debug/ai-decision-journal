@@ -1,29 +1,95 @@
-function DecisionGovernance({ governance }) {
+function DecisionGovernance({
+  governance,
+  onGovernanceChange,
+}) {
+  function update(field, value) {
+    onGovernanceChange({
+      ...governance,
+      [field]: value,
+    });
+  }
+
   return (
     <section className="decision-section">
       <h3>Decision Governance</h3>
 
-      <p>
-        <strong>AI Recommendation:</strong>{" "}
-        {governance.aiRecommendation}
-      </p>
+      <label>
+        <strong>AI Recommendation</strong>
 
-      <p>
-        <strong>Final Decision:</strong>{" "}
-        {governance.finalDecision}
-      </p>
+        <textarea
+          rows={4}
+          value={governance.aiRecommendation ?? ""}
+          onChange={(event) =>
+            update(
+              "aiRecommendation",
+              event.target.value
+            )
+          }
+        />
+      </label>
 
-      <p>
-        <strong>Rationale:</strong> {governance.rationale}
-      </p>
+      <label>
+        <strong>Rationale</strong>
 
-      <p>
-        <strong>Reviewer:</strong> {governance.reviewer}
-      </p>
+        <textarea
+          rows={5}
+          value={governance.rationale ?? ""}
+          onChange={(event) =>
+            update(
+              "rationale",
+              event.target.value
+            )
+          }
+        />
+      </label>
 
-      <p>
-        <strong>Reviewed:</strong> {governance.reviewedAt}
-      </p>
+      <label>
+        <strong>Final Decision</strong>
+
+        <textarea
+          rows={3}
+          value={governance.finalDecision ?? ""}
+          onChange={(event) =>
+            update(
+              "finalDecision",
+              event.target.value
+            )
+          }
+        />
+      </label>
+
+      <hr />
+
+      <label>
+        <strong>Reviewer</strong>
+
+        <input
+          type="text"
+          placeholder="Who reviewed this decision?"
+          value={governance.reviewer ?? ""}
+          onChange={(event) =>
+            update(
+              "reviewer",
+              event.target.value
+            )
+          }
+        />
+      </label>
+
+      <label>
+        <strong>Reviewed At</strong>
+
+        <input
+          type="date"
+          value={governance.reviewedAt ?? ""}
+          onChange={(event) =>
+            update(
+              "reviewedAt",
+              event.target.value
+            )
+          }
+        />
+      </label>
     </section>
   );
 }
