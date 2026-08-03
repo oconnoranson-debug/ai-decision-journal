@@ -438,7 +438,7 @@ npm run dev
 
 AI Decision Journal was built as a portfolio project exploring enterprise AI implementation, decision governance, and organizational intelligence.
 
-Rather than functioning as a simple CRUD application for recording decisions, the project explores how organizations can preserve decision context, governance, implementation outcomes, and institutional learning as durable organizational assets. The emphasis is on business architecture, transparent governance, and long-term organizational memory.
+Beyond recording decisions, the project explores how organizations can preserve decision context, governance, implementation outcomes, and institutional learning as durable organizational assets.  The emphasis is on business architecture, transparent governance, and long-term organizational memory.
 
 ---
 
