@@ -332,7 +332,7 @@ This project explores several architectural challenges common to enterprise busi
 
 ---
 
-# Portfolio Architecture
+# Ecosystem Architecture
 
 AI Decision Journal is one component within a broader organizational intelligence ecosystem.
 
@@ -458,6 +458,6 @@ AI Implementation & Workflow Systems Architect
 
 Austin, Texas
 
-**LinkedIn:** https://www.linkedin.com/in/anson-o-connor-2404b4282
+**LinkedIn:** https://www.linkedin.com/in/ansonoconnor
 
 **Website:** https://www.synapseflowsystems.com
