@@ -10,26 +10,18 @@
  * specialized decision workspace components.
  *
  * Responsibilities:
- * - Receive a Decision domain object
- * - Coordinate workspace composition
+ * - Receive a persisted Decision aggregate
+ * - Maintain the editable working Decision
+ * - Coordinate the Decision editing session
+ * - Persist workspace changes through the application service
+ * - Notify the parent application after a successful save
  * - Delegate rendering to focused business components
- *
- * Dependencies:
- * - DecisionHeader
- * - DecisionSummary
- * - DecisionQuestion
- * - DecisionContext
- * - DecisionEvidence
- * - DecisionGovernance
- * - DecisionOutcome
- * - DecisionLessons
- * - DecisionTimeline
- * - DecisionHistory
- * - DecisionApprovals
- * - DecisionTags
- * - DecisionMetadata
  * ============================================================================
  */
+
+import { useEffect, useMemo, useState } from "react";
+
+import decisionService from "../application/DecisionService";
 
 import DecisionHeader from "./DecisionHeader";
 import DecisionSummary from "./DecisionSummary";
@@ -45,43 +37,163 @@ import DecisionApprovals from "./DecisionApprovals";
 import DecisionTags from "./DecisionTags";
 import DecisionMetadata from "./DecisionMetadata";
 
-function DecisionCard({ decision }) {
+function DecisionCard({
+  decision,
+  onDecisionSaved,
+}) {
+  const [workingDecision, setWorkingDecision] = useState(decision);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState(null);
+
+  useEffect(() => {
+    setWorkingDecision(decision);
+    setSaveError(null);
+  }, [decision]);
+
+  const isDirty = useMemo(() => {
+    if (!decision || !workingDecision) {
+      return false;
+    }
+
+    return (
+      JSON.stringify(decision) !==
+      JSON.stringify(workingDecision)
+    );
+  }, [decision, workingDecision]);
+
+  if (!workingDecision) {
+    return null;
+  }
+
+  function handleTitleChange(title) {
+    setWorkingDecision((current) => ({
+      ...current,
+      identity: {
+        ...current.identity,
+        title,
+      },
+    }));
+
+    setSaveError(null);
+  }
+
+  function handleSummaryChange(summary) {
+    setWorkingDecision((current) => ({
+      ...current,
+      summary,
+    }));
+
+    setSaveError(null);
+  }
+
+  async function handleSave() {
+    if (!isDirty || isSaving) {
+      return;
+    }
+
+    try {
+      setIsSaving(true);
+      setSaveError(null);
+
+      const updatedDecision =
+        await decisionService.updateDecision(
+          workingDecision.identity.id,
+          workingDecision
+        );
+
+      setWorkingDecision(updatedDecision);
+
+      if (onDecisionSaved) {
+        await onDecisionSaved(updatedDecision);
+      }
+    } catch (error) {
+      console.error("Failed to save decision.", error);
+
+      setSaveError(
+        error instanceof Error
+          ? error.message
+          : "The Decision could not be saved."
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  function handleCancel() {
+    if (isSaving) {
+      return;
+    }
+
+    setWorkingDecision(decision);
+    setSaveError(null);
+  }
+
   return (
     <section className="decision-card">
       <DecisionHeader
-        title={decision.identity.title}
-        status={decision.identity.status}
-        priority={decision.identity.priority}
-        type={decision.identity.type}
-        owner={decision.identity.owner}
+        title={workingDecision.identity.title}
+        status={workingDecision.identity.status}
+        priority={workingDecision.identity.priority}
+        type={workingDecision.identity.type}
+        owner={workingDecision.identity.owner}
+        onTitleChange={handleTitleChange}
       />
 
-      <DecisionSummary summary={decision.summary} />
+      {isDirty && (
+        <div className="decision-actions">
+          <button
+            type="button"
+            onClick={handleSave}
+            disabled={isSaving}
+          >
+            {isSaving ? "Saving..." : "Save Changes"}
+          </button>
 
-      <DecisionQuestion question={decision.question} />
+          <button
+            type="button"
+            onClick={handleCancel}
+            disabled={isSaving}
+          >
+            Cancel
+          </button>
+        </div>
+      )}
 
-      <DecisionContext context={decision.context} />
+      {saveError && (
+        <p className="decision-save-error" role="alert">
+          {saveError}
+        </p>
+      )}
 
-      <DecisionEvidence evidence={decision.evidence} />
+      <DecisionSummary
+        summary={workingDecision.summary}
+        onSummaryChange={handleSummaryChange}
+      />
 
-      <DecisionGovernance governance={decision.governance} />
+      <DecisionQuestion question={workingDecision.question} />
 
-      <DecisionOutcome outcome={decision.outcome} />
+      <DecisionContext context={workingDecision.context} />
 
-      <DecisionLessons lessons={decision.lessons} />
+      <DecisionEvidence evidence={workingDecision.evidence} />
 
-      <DecisionTimeline timeline={decision.timeline} />
+      <DecisionGovernance governance={workingDecision.governance} />
 
-      <DecisionHistory history={decision.history} />
+      <DecisionOutcome outcome={workingDecision.outcome} />
 
-      <DecisionApprovals approvals={decision.approvals} />
+      <DecisionLessons lessons={workingDecision.lessons} />
 
-      <DecisionTags tags={decision.tags} />
+      <DecisionTimeline timeline={workingDecision.timeline} />
+
+      <DecisionHistory history={workingDecision.history} />
+
+      <DecisionApprovals approvals={workingDecision.approvals} />
+
+      <DecisionTags tags={workingDecision.tags} />
 
       <DecisionMetadata
-        createdAt={decision.metadata.createdAt}
-        updatedAt={decision.metadata.updatedAt}
-        id={decision.identity.id}
+        createdAt={workingDecision.metadata.createdAt}
+        updatedAt={workingDecision.metadata.updatedAt}
+        id={workingDecision.identity.id}
       />
     </section>
   );

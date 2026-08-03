@@ -4,11 +4,17 @@ function DecisionHeader({
   priority,
   type,
   owner,
+  onTitleChange,
 }) {
   return (
     <div className="decision-card-header">
       <div>
-        <h2>{title}</h2>
+        <input
+          type="text"
+          value={title}
+          onChange={(event) => onTitleChange(event.target.value)}
+          className="decision-title-input"
+        />
 
         <div className="decision-header-details">
           <span className="decision-status">{status}</span>

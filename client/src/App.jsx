@@ -59,6 +59,10 @@ function App() {
     }
   }
 
+  async function handleDecisionSaved(updatedDecision) {
+    await refreshDecisions(updatedDecision.identity.id);
+  }
+
   useEffect(() => {
     refreshDecisions();
   }, []);
@@ -71,10 +75,14 @@ function App() {
       </header>
 
       <nav className="navigation">
-        <button>Dashboard</button>
-        <button>Decisions</button>
+        <button type="button">Dashboard</button>
 
-        <button onClick={handleNewDecision}>
+        <button type="button">Decisions</button>
+
+        <button
+          type="button"
+          onClick={handleNewDecision}
+        >
           New Decision
         </button>
       </nav>
@@ -88,7 +96,10 @@ function App() {
           />
 
           {selectedDecision && (
-            <DecisionCard decision={selectedDecision} />
+            <DecisionCard
+              decision={selectedDecision}
+              onDecisionSaved={handleDecisionSaved}
+            />
           )}
         </div>
       </main>
