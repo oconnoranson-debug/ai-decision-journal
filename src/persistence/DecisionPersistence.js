@@ -73,7 +73,7 @@ class DecisionPersistence {
     ]);
 
     if (evidenceError) throw evidenceError;
-    if (timelineError) throw timelineError;
+    if (timelineError) throw evidenceError;
     if (historyError) throw historyError;
     if (approvalsError) throw approvalsError;
     if (tagsError) throw tagsError;
@@ -90,11 +90,13 @@ class DecisionPersistence {
 
   async create(decision) {
     await this.saveDecision(decision);
+
     return this.getById(decision.identity.id);
   }
 
   async update(id, decision) {
     await this.saveDecision(decision);
+
     return this.getById(id);
   }
 

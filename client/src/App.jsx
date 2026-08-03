@@ -51,16 +51,26 @@ function App() {
 
   async function handleNewDecision() {
     try {
-      const decision = await decisionService.createDecision();
+      const decision =
+        await decisionService.createDecision();
 
-      await refreshDecisions(decision.identity.id);
+      await refreshDecisions(
+        decision.identity.id
+      );
     } catch (error) {
-      console.error("Failed to create decision.", error);
+      console.error(
+        "Failed to create decision.",
+        error
+      );
     }
   }
 
-  async function handleDecisionSaved(updatedDecision) {
-    await refreshDecisions(updatedDecision.identity.id);
+  async function handleDecisionSaved(
+    updatedDecision
+  ) {
+    await refreshDecisions(
+      updatedDecision.identity.id
+    );
   }
 
   useEffect(() => {
@@ -71,34 +81,45 @@ function App() {
     <div className="app">
       <header className="header">
         <h1>AI Decision Journal</h1>
-        <p className="subtitle">Decision State</p>
+
+        <p className="subtitle">
+          Record • Review • Learn
+        </p>
       </header>
 
-      <nav className="navigation">
-        <button type="button">Dashboard</button>
-
-        <button type="button">Decisions</button>
-
-        <button
-          type="button"
-          onClick={handleNewDecision}
-        >
-          New Decision
-        </button>
-      </nav>
-
       <main className="content">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            marginBottom: "1.5rem",
+          }}
+        >
+          <button
+            type="button"
+            onClick={handleNewDecision}
+          >
+            + New Decision
+          </button>
+        </div>
+
         <div className="workspace">
           <DecisionList
             decisions={decisions}
-            selectedDecision={selectedDecision}
-            onSelectDecision={loadDecision}
+            selectedDecision={
+              selectedDecision
+            }
+            onSelectDecision={
+              loadDecision
+            }
           />
 
           {selectedDecision && (
             <DecisionCard
               decision={selectedDecision}
-              onDecisionSaved={handleDecisionSaved}
+              onDecisionSaved={
+                handleDecisionSaved
+              }
             />
           )}
         </div>
