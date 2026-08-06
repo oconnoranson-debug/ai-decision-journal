@@ -188,6 +188,80 @@ button {
   color: white;
 }
 
+.decision-header-identity {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 1.4rem;
+}
+
+.decision-header-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.decision-header-label {
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.decision-title-input,
+.decision-owner-input {
+  width: 100%;
+  background: transparent;
+  color: #f8fafc;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.decision-title-input {
+  padding: 0.35rem 0.5rem;
+  font-size: 2.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.decision-owner-input {
+  padding: 0.75rem 0.85rem;
+  background: #111827;
+  border-color: #334155;
+  font-size: 0.95rem;
+}
+
+.decision-title-input:hover,
+.decision-title-input:focus {
+  background: #111827;
+  border-color: #334155;
+}
+
+.decision-title-input:focus,
+.decision-owner-input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.decision-owner-input::placeholder {
+  color: #64748b;
+}
+
+.decision-classification {
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 .decision-header-details {
   display: flex;
   flex-wrap: wrap;
@@ -324,7 +398,7 @@ button {
 }
 
 /* ==========================================================================
-   Responsive
+   Responsive Layout
 ========================================================================== */
 
 @media (max-width: 960px) {
@@ -333,21 +407,50 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .header {
+    padding: 2rem;
+  }
+
+  .content {
+    padding: 0 1rem;
+  }
+
+  .decision-card-header,
+  .decision-section,
+  .decision-actions,
+  .decision-metadata {
+    padding: 2rem;
+  }
+
+  .decision-header-identity {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .decision-header-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .decision-actions {
     justify-content: center;
     flex-wrap: wrap;
   }
 
+  .decision-actions button {
+    width: 100%;
+  }
+
   .decision-metadata {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .header {
-    padding: 2rem;
+  .decision-title-input {
+    font-size: 1.9rem;
   }
 
-  .decision-card-header,
-  .decision-section {
-    padding: 2rem;
+  .decision-owner-input {
+    width: 100%;
   }
 }

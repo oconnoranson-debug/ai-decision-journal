@@ -65,16 +65,24 @@ function DecisionCard({
     return null;
   }
 
-  function handleTitleChange(title) {
+  function updateIdentity(field, value) {
     setWorkingDecision((current) => ({
       ...current,
       identity: {
         ...current.identity,
-        title,
+        [field]: value,
       },
     }));
 
     setSaveError(null);
+  }
+
+  function handleTitleChange(title) {
+    updateIdentity("title", title);
+  }
+
+  function handleOwnerChange(owner) {
+    updateIdentity("owner", owner);
   }
 
   function handleSummaryChange(summary) {
@@ -182,6 +190,7 @@ function DecisionCard({
         type={workingDecision.identity.type}
         owner={workingDecision.identity.owner}
         onTitleChange={handleTitleChange}
+        onOwnerChange={handleOwnerChange}
       />
 
       {isDirty && (
