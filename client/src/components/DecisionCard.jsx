@@ -81,6 +81,10 @@ function DecisionCard({
     updateIdentity("title", title);
   }
 
+  function handleStatusChange(status) {
+    updateIdentity("status", status);
+  }
+
   function handleOwnerChange(owner) {
     updateIdentity("owner", owner);
   }
@@ -190,6 +194,7 @@ function DecisionCard({
         type={workingDecision.identity.type}
         owner={workingDecision.identity.owner}
         onTitleChange={handleTitleChange}
+        onStatusChange={handleStatusChange}
         onOwnerChange={handleOwnerChange}
       />
 

@@ -139,7 +139,14 @@ class DecisionPersistenceMapper {
 
       timeline,
 
-      history,
+      history: history.map((entry) => ({
+        id: entry.id,
+        field: entry.field,
+        previousValue: entry.previous_value,
+        currentValue: entry.current_value,
+        updatedBy: entry.updated_by,
+        updatedAt: entry.updated_at,
+      })),
 
       approvals,
 

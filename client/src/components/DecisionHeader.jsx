@@ -12,9 +12,14 @@
  * - Display the Decision as the primary workspace artifact
  * - Edit the Decision title
  * - Edit the accountable owner
+ * - Edit the Decision lifecycle status
  * - Present lifecycle classification
  * ============================================================================
  */
+
+import {
+  DecisionLifecycle,
+} from "../../../src/domain/decisionLifecycle.js";
 
 function DecisionHeader({
   title,
@@ -23,6 +28,7 @@ function DecisionHeader({
   type,
   owner,
   onTitleChange,
+  onStatusChange,
   onOwnerChange,
 }) {
   return (
@@ -47,9 +53,28 @@ function DecisionHeader({
       </label>
 
       <div className="decision-header-details">
-        <span className="decision-status">
-          {status}
-        </span>
+        <label className="decision-status-control">
+          <span className="decision-status-label">
+            Status
+          </span>
+
+          <select
+            value={status ?? ""}
+            onChange={(event) =>
+              onStatusChange(event.target.value)
+            }
+            className="decision-status-select"
+          >
+            {DecisionLifecycle.map((lifecycleStatus) => (
+              <option
+                key={lifecycleStatus}
+                value={lifecycleStatus}
+              >
+                {lifecycleStatus}
+              </option>
+            ))}
+          </select>
+        </label>
 
         <span className="decision-detail-pill">
           {type}

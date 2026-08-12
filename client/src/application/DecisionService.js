@@ -1,6 +1,24 @@
 import SupabaseDecisionRepository from "../repositories/SupabaseDecisionRepository";
 import DecisionFactory from "../../../src/factories/DecisionFactory.js";
 
+import {
+  canTransition,
+} from "../../../src/domain/decisionLifecycle.js";
+
+import {
+  detectDecisionDifferences,
+} from "../../../src/domain/DecisionDifference.js";
+
+import {
+  DecisionLifecycleEventType,
+  createDecisionLifecycleEvent,
+} from "../../../src/domain/DecisionLifecycleEvent.js";
+
+import {
+  projectLifecycleEventToHistory,
+  projectLifecycleEventToTimeline,
+} from "../../../src/domain/DecisionLifecycleProjection.js";
+
 /**
  * DecisionService
  *
@@ -31,8 +49,67 @@ class DecisionService {
     return this.repository.create(decision);
   }
 
-  async updateDecision(id, decision) {
-    return this.repository.update(id, decision);
+  /**
+   * Updates an existing Decision.
+   *
+   * Meaningful identity changes are detected against the persisted
+   * Decision state and converted into lifecycle evidence.
+   */
+  async updateDecision(
+    id,
+    proposedDecision,
+    actor = "Current User"
+  ) {
+    const persistedDecision =
+      await this.repository.getById(id);
+
+    if (!persistedDecision) {
+      throw new Error(`Decision '${id}' not found.`);
+    }
+
+    this.validateLifecycleTransition(
+      persistedDecision,
+      proposedDecision
+    );
+
+    const differences = detectDecisionDifferences(
+      persistedDecision,
+      proposedDecision
+    );
+
+    const lifecycleEvents = differences.map((difference) =>
+      this.createLifecycleEventFromDifference(
+        difference,
+        actor
+      )
+    );
+
+    const historyEntries = lifecycleEvents
+      .map(projectLifecycleEventToHistory)
+      .filter(Boolean);
+
+    const timelineEntries = lifecycleEvents
+      .map(projectLifecycleEventToTimeline)
+      .filter(Boolean);
+
+    const updatedDecision = {
+      ...proposedDecision,
+
+      history: [
+        ...(persistedDecision.history || []),
+        ...historyEntries,
+      ],
+
+      timeline: [
+        ...(persistedDecision.timeline || []),
+        ...timelineEntries,
+      ],
+    };
+
+    return this.repository.update(
+      id,
+      updatedDecision
+    );
   }
 
   async deleteDecision(id) {
@@ -54,7 +131,77 @@ class DecisionService {
       },
     };
 
-    return this.repository.update(id, updatedDecision);
+    return this.updateDecision(
+      id,
+      updatedDecision
+    );
+  }
+
+  validateLifecycleTransition(
+    persistedDecision,
+    proposedDecision
+  ) {
+    const previousStatus =
+      persistedDecision.identity?.status;
+
+    const proposedStatus =
+      proposedDecision.identity?.status;
+
+    if (previousStatus === proposedStatus) {
+      return;
+    }
+
+    if (
+      !canTransition(
+        previousStatus,
+        proposedStatus
+      )
+    ) {
+      throw new Error(
+        `Invalid Decision lifecycle transition: ` +
+          `'${previousStatus}' → '${proposedStatus}'.`
+      );
+    }
+  }
+
+  createLifecycleEventFromDifference(
+    difference,
+    actor
+  ) {
+    const eventTypeByField = {
+      title: DecisionLifecycleEventType.TITLE_CHANGED,
+      owner: DecisionLifecycleEventType.OWNER_CHANGED,
+      status: DecisionLifecycleEventType.STATUS_CHANGED,
+      priority: DecisionLifecycleEventType.PRIORITY_CHANGED,
+      type: DecisionLifecycleEventType.TYPE_CHANGED,
+    };
+
+    const eventType =
+      eventTypeByField[difference.field];
+
+    if (!eventType) {
+      throw new Error(
+        `Unsupported Decision difference field: ` +
+          `'${difference.field}'.`
+      );
+    }
+
+    return createDecisionLifecycleEvent({
+      type: eventType,
+
+      description:
+        `${difference.label} changed from ` +
+        `'${difference.previousValue}' to ` +
+        `'${difference.currentValue}'.`,
+
+      actor,
+
+      metadata: {
+        field: difference.field,
+        previousValue: difference.previousValue,
+        currentValue: difference.currentValue,
+      },
+    });
   }
 }
 
