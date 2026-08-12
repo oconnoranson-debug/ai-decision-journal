@@ -3,7 +3,7 @@ function DecisionSummary({
   onSummaryChange,
 }) {
   return (
-    <section className="decision-section">
+    <section id="decision-summary" className="decision-section">
       <h3>Decision Summary</h3>
 
       <textarea

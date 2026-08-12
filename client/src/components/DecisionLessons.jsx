@@ -29,7 +29,7 @@ function DecisionLessons({
   }
 
   return (
-    <section className="decision-section">
+    <section id="decision-lessons" className="decision-section">
       <h3>Lessons Learned</h3>
 
       <label>

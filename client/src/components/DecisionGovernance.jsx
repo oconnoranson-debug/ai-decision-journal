@@ -10,7 +10,7 @@ function DecisionGovernance({
   }
 
   return (
-    <section className="decision-section">
+    <section id="decision-governance" className="decision-section">
       <h3>Decision Governance</h3>
 
       <label>

@@ -20,7 +20,7 @@
 
 function DecisionApprovals({ approvals = [] }) {
   return (
-    <section className="decision-section">
+    <section id="decision-approvals" className="decision-section">
       <h3>Decision Approvals</h3>
 
       <div className="decision-approvals">

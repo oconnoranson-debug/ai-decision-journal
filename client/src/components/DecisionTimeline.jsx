@@ -18,7 +18,7 @@
 
 function DecisionTimeline({ timeline = [] }) {
   return (
-    <section className="decision-section">
+    <section id="decision-timeline" className="decision-section">
       <h3>Decision Timeline</h3>
 
       <div className="decision-timeline">

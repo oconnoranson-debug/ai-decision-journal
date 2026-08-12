@@ -20,7 +20,7 @@
 
 function DecisionEvidence({ evidence = [] }) {
   return (
-    <section className="decision-section">
+    <section id="decision-evidence" className="decision-section">
       <h3>Decision Evidence</h3>
 
       {evidence.length > 0 ? (

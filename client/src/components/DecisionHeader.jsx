@@ -6,14 +6,13 @@
  * File: DecisionHeader.jsx
  *
  * Purpose:
- * Presents the identifying, ownership, and classification information for a
- * Decision.
+ * Presents the enterprise identity of a Decision record.
  *
  * Responsibilities:
+ * - Display the Decision as the primary workspace artifact
  * - Edit the Decision title
- * - Edit the Decision owner
- * - Display lifecycle status
- * - Display priority and Decision type
+ * - Edit the accountable owner
+ * - Present lifecycle classification
  * ============================================================================
  */
 
@@ -28,59 +27,54 @@ function DecisionHeader({
 }) {
   return (
     <header className="decision-card-header">
-      <div className="decision-header-identity">
-        <label
-          className="decision-header-field"
-          htmlFor="decision-title"
-        >
-          <span className="decision-header-label">
-            Decision
-          </span>
-
-          <input
-            id="decision-title"
-            type="text"
-            value={title ?? ""}
-            onChange={(event) =>
-              onTitleChange(event.target.value)
-            }
-            className="decision-title-input"
-          />
-        </label>
-
-        <label
-          className="decision-header-field decision-owner-field"
-          htmlFor="decision-owner"
-        >
-          <span className="decision-header-label">
-            Decision Owner
-          </span>
-
-          <input
-            id="decision-owner"
-            type="text"
-            value={owner ?? ""}
-            placeholder="Assign an accountable owner"
-            onChange={(event) =>
-              onOwnerChange(event.target.value)
-            }
-            className="decision-owner-input"
-          />
-        </label>
+      <div className="decision-record-type">
+        Decision Record
       </div>
+
+      <label
+        className="decision-title-group"
+        htmlFor="decision-title"
+      >
+        <input
+          id="decision-title"
+          type="text"
+          value={title ?? ""}
+          onChange={(event) =>
+            onTitleChange(event.target.value)
+          }
+          className="decision-title-input"
+        />
+      </label>
 
       <div className="decision-header-details">
         <span className="decision-status">
           {status}
         </span>
 
-        <span className="decision-classification">
-          Priority: {priority}
+        <span className="decision-detail-pill">
+          {type}
         </span>
 
-        <span className="decision-classification">
-          Type: {type}
+        <span className="decision-detail-pill">
+          {priority} Priority
         </span>
+      </div>
+
+      <div className="decision-owner-block">
+        <div className="decision-owner-label">
+          Decision Owner
+        </div>
+
+        <input
+          id="decision-owner"
+          type="text"
+          value={owner ?? ""}
+          placeholder="Assign an accountable owner"
+          onChange={(event) =>
+            onOwnerChange(event.target.value)
+          }
+          className="decision-owner-input"
+        />
       </div>
     </header>
   );

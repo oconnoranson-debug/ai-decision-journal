@@ -29,7 +29,7 @@ function DecisionOutcome({
   }
 
   return (
-    <section className="decision-section">
+    <section id="decision-outcome" className="decision-section">
       <h3>Decision Outcome</h3>
 
       <label>

@@ -171,118 +171,202 @@ button {
 }
 
 /* ==========================================================================
-   Decision Workspace Header
+   Decision Workspace Navigation
 ========================================================================== */
 
-.decision-card-header {
+.decision-workspace {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+  min-width: 0;
+}
+
+.workspace-navigation {
+  position: sticky;
+  top: 2rem;
+
+  background: #111827;
+  border: 1px solid #334155;
+  border-radius: 14px;
+
+  overflow: hidden;
+}
+
+.workspace-navigation h3 {
+  margin: 0;
+  padding: 1rem 1.1rem;
+
   background: #0f172a;
   border-bottom: 1px solid #334155;
-  padding: 2.5rem;
-}
 
-.decision-card-header h2 {
-  margin: 0 0 1.4rem;
-  font-size: 2.35rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: white;
-}
-
-.decision-header-identity {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(240px, 1fr);
-  gap: 1.5rem;
-  align-items: end;
-  margin-bottom: 1.4rem;
-}
-
-.decision-header-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.decision-header-label {
   color: #94a3b8;
+
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.decision-title-input,
-.decision-owner-input {
+.workspace-navigation nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0.45rem;
+}
+
+.workspace-navigation-link {
   width: 100%;
+
+  border: none;
+  border-radius: 8px;
+
   background: transparent;
-  color: #f8fafc;
-  border: 1px solid transparent;
-  border-radius: 10px;
-  font: inherit;
+  color: #94a3b8;
+
+  padding: 0.7rem 0.75rem;
+
+  text-align: left;
+
+  font-size: 0.82rem;
+  font-weight: 600;
+
+  cursor: pointer;
+
   transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease;
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.workspace-navigation-link:hover {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.decision-workspace .decision-card {
+  min-width: 0;
+}
+
+.decision-section,
+.decision-metadata {
+  scroll-margin-top: 2rem;
+}
+
+/* ==========================================================================
+   Decision Workspace Header
+========================================================================== */
+
+.decision-card-header {
+  background: #0f172a;
+  border-bottom: 1px solid #334155;
+  padding: 3rem;
+}
+
+.decision-record-type {
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.decision-title-group {
+  display: block;
 }
 
 .decision-title-input {
-  padding: 0.35rem 0.5rem;
-  font-size: 2.35rem;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.03em;
-}
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  color: #f8fafc;
 
-.decision-owner-input {
-  padding: 0.75rem 0.85rem;
-  background: #111827;
-  border-color: #334155;
-  font-size: 0.95rem;
+  font-size: 2.9rem;
+  font-weight: 750;
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+
+  transition: color .2s ease;
 }
 
 .decision-title-input:hover,
 .decision-title-input:focus {
-  background: #111827;
-  border-color: #334155;
+  outline: none;
 }
 
-.decision-title-input:focus,
-.decision-owner-input:focus {
-  outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+.decision-header-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.decision-status,
+.decision-detail-pill {
+  display: inline-flex;
+  align-items: center;
+
+  padding: .45rem .95rem;
+
+  border-radius: 999px;
+
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+}
+
+.decision-status {
+  background: #2563eb;
+  color: white;
+}
+
+.decision-detail-pill {
+  background: #1e293b;
+  color: #cbd5e1;
+  border: 1px solid #334155;
+}
+
+.decision-owner-block {
+  border-top: 1px solid #1e293b;
+  padding-top: 1.5rem;
+}
+
+.decision-owner-label {
+  margin-bottom: .55rem;
+
+  color: #94a3b8;
+
+  font-size: .72rem;
+  font-weight: 700;
+
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.decision-owner-input {
+  width: 100%;
+
+  background: transparent;
+
+  border: none;
+
+  color: #f8fafc;
+
+  font-size: 1.05rem;
+  font-weight: 500;
+
+  padding: 0;
 }
 
 .decision-owner-input::placeholder {
   color: #64748b;
 }
 
-.decision-classification {
-  color: #cbd5e1;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.decision-header-details {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
-  align-items: center;
-}
-
-.decision-status {
-  background: #2563eb;
-  color: white;
-  padding: 0.45rem 1rem;
-  border-radius: 999px;
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.decision-owner {
-  color: #94a3b8;
-  font-size: 0.9rem;
+.decision-owner-input:focus {
+  outline: none;
 }
 
 /* ==========================================================================
@@ -452,5 +536,22 @@ button {
 
   .decision-owner-input {
     width: 100%;
+  }
+
+    .decision-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .workspace-navigation {
+    position: static;
+  }
+
+  .workspace-navigation nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .workspace-navigation-link {
+    width: auto;
   }
 }

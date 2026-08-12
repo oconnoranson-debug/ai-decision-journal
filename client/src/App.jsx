@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-import DecisionCard from "./components/DecisionCard";
+import DecisionWorkspace from "./components/DecisionWorkspace";
 import DecisionList from "./components/DecisionList";
 
 import decisionService from "./application/DecisionService";
@@ -106,22 +106,14 @@ function App() {
         <div className="workspace">
           <DecisionList
             decisions={decisions}
-            selectedDecision={
-              selectedDecision
-            }
-            onSelectDecision={
-              loadDecision
-            }
+            selectedDecision={selectedDecision}
+            onSelectDecision={loadDecision}
           />
 
-          {selectedDecision && (
-            <DecisionCard
-              decision={selectedDecision}
-              onDecisionSaved={
-                handleDecisionSaved
-              }
-            />
-          )}
+          <DecisionWorkspace
+            decision={selectedDecision}
+            onDecisionSaved={handleDecisionSaved}
+          />
         </div>
       </main>
     </div>

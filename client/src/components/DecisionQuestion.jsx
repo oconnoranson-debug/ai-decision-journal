@@ -3,7 +3,7 @@ function DecisionQuestion({
   onQuestionChange,
 }) {
   return (
-    <section className="decision-section">
+    <section id="decision-question" className="decision-section">
       <h3>Decision Question</h3>
 
       <textarea

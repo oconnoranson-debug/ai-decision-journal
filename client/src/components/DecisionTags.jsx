@@ -1,6 +1,6 @@
 function DecisionTags({ tags }) {
   return (
-    <section className="decision-section">
+    <section id="decision-tags" className="decision-section">
       <h3>Tags</h3>
 
       <div className="decision-tags">

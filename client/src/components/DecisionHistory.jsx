@@ -21,7 +21,7 @@
 
 function DecisionHistory({ history = [] }) {
   return (
-    <section className="decision-section">
+    <section id="decision-history" className="decision-section">
       <h3>Decision History</h3>
 
       <div className="decision-history">

@@ -1,6 +1,9 @@
 function DecisionMetadata({ createdAt, updatedAt, id }) {
   return (
-    <div className="decision-metadata">
+    <div
+      id="decision-metadata"
+      className="decision-metadata"
+    >
       <div className="metadata-item">
         <span className="metadata-label">Created</span>
         <span className="metadata-value">{createdAt}</span>

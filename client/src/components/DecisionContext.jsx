@@ -3,7 +3,7 @@ function DecisionContext({
   onContextChange,
 }) {
   return (
-    <section className="decision-section">
+    <section id="decision-context" className="decision-section">
       <h3>Background & Context</h3>
 
       <textarea
